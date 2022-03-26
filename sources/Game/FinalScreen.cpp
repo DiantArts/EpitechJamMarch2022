@@ -23,7 +23,24 @@
 )
     : m_window{ window }
 {
-    m_entities.emplace(::xrn::component::Drawable{ "testWallpaper.png", m_window });
+    { // backgrounds
+        m_entities.emplace(::xrn::component::Drawable{ "background.png", m_window });
+        ::xrn::component::Drawable drawable{ "background.png", m_window };
+
+        ::xrn::component::Movable movable;
+        movable.setPosition(m_window.getSize().x / 2 + 60, 0);
+        drawable.updatePosition(movable);
+        m_entities.emplace(::std::move(drawable));
+    }
+    { // ground
+        ::xrn::component::Drawable drawable{ "ground.png", m_window };
+        drawable.setScale(10, 1);
+
+        ::xrn::component::Movable movable;
+        movable.setPosition(0, m_window.getSize().y / 1.15);
+        drawable.updatePosition(movable);
+        m_entities.emplace(::std::move(drawable));
+    }
 
     { // score
         ::xrn::component::Text text{ "Score: " + ::std::to_string(score), ::sf::Color::Blue, m_window };
@@ -38,11 +55,7 @@
 
     { // quit text
         ::xrn::component::Text text{ "Return to menu", ::sf::Color::Blue, m_window };
-#ifdef DEBUG_HITBOX
         ::xrn::component::Hitbox hitbox{ 5, 5, 775, 90, window };
-#else
-        ::xrn::component::Hitbox hitbox{ 0, 0, 775, 90 };
-#endif
 
         ::xrn::component::Movable movable;
         movable.setPosition(m_window.getSize().x / 2 - 390, m_window.getSize().y / 1.75 - 50);

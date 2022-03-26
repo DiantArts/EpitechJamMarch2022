@@ -20,7 +20,6 @@ public:
     /// \brief Constructor
     ///
     ///////////////////////////////////////////////////////////////////////////
-#ifdef DEBUG_HITBOX
     explicit Hitbox(
         int left,
         int top,
@@ -28,14 +27,6 @@ public:
         int height,
         ::xrn::Window& window
     );
-#else
-    explicit Hitbox(
-        int left,
-        int top,
-        int width,
-        int height
-    );
-#endif
 
 
 

@@ -16,7 +16,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////
-#ifdef DEBUG_HITBOX
 ::xrn::component::Hitbox::Hitbox(
     int left,
     int top,
@@ -26,23 +25,16 @@
 )
     : m_hitbox{ 0, 0, width, height }
     , m_relativePosition{ static_cast<float>(left), static_cast<float>(top) }
+#ifdef DEBUG_HITBOX
     , m_window{ &window }
+#endif
 {
+#ifdef DEBUG_HITBOX
     m_hitboxDebug.setOutlineColor(::sf::Color::Yellow);
     m_hitboxDebug.setFillColor(::sf::Color::Transparent);
     m_hitboxDebug.setOutlineThickness(1);
-}
-#else
-::xrn::component::Hitbox::Hitbox(
-    int left,
-    int top,
-    int width,
-    int height
-)
-    : m_hitbox{ 0, 0, width, height }
-    , m_relativePosition{ static_cast<float>(left), static_cast<float>(top) }
-{}
 #endif
+}
 
 
 

@@ -77,11 +77,7 @@
         movable.setPosition(0, m_window.getSize().y / 1.15);
         drawable.updatePosition(movable);
 
-#ifdef DEBUG_HITBOX
         ::xrn::component::Hitbox hitbox{ 0, 0, 1920, 200, window };
-#else
-        ::xrn::component::Hitbox hitbox{ 0, 0, 1920, 200 };
-#endif
         hitbox.updatePosition(movable);
 
         m_entities.emplace(
@@ -103,11 +99,7 @@
             ::std::move(drawable),
             ::std::move(movable),
             ::xrn::component::Gravity{},
-#ifdef DEBUG_HITBOX
             ::xrn::component::Hitbox{ 8, 8, 100, 100, m_window }
-#else
-            ::xrn::component::Hitbox{ 8, 8, 100, 100 }
-#endif
         ).getId();
     }
 
@@ -257,11 +249,7 @@ void ::xrn::Scene::spawnObstacles()
                 ::std::move(drawable),
                 ::std::move(movable),
                 ::xrn::component::Gravity{},
-#ifdef DEBUG_HITBOX
                 ::xrn::component::Hitbox{ 5, 5, 50, 170, m_window }
-#else
-                ::xrn::component::Hitbox{ 8, 8, 50, 100 }
-#endif
             ).getId() };
             m_entities.get(id).addAbility<xrn::ability::Enemy>();
             break;
@@ -277,11 +265,7 @@ void ::xrn::Scene::spawnObstacles()
             auto id{ m_entities.emplace(
                 ::std::move(drawable),
                 ::std::move(movable),
-#ifdef DEBUG_HITBOX
                 ::xrn::component::Hitbox{ 5, 5, 50, 170, m_window }
-#else
-                ::xrn::component::Hitbox{ 8, 8, 50, 100 }
-#endif
             ).getId() };
             m_entities.get(id).addAbility<xrn::ability::Enemy>();
             break;
