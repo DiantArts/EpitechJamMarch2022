@@ -22,7 +22,51 @@
 )
     : m_window{ window }
 {
-    m_entities.emplace(::xrn::component::Drawable{ "testWallpaper.png", m_window });
+    { // background1
+        ::xrn::component::Drawable drawable{ "background.png", m_window };
+
+        ::xrn::component::Movable movable;
+        movable.setDirection({1.0f, 0.0f});
+        movable.setSpeed({ -static_cast<float>(m_enemySpeed / 2), 0 });
+        drawable.updatePosition(movable);
+
+        m_backgroundIds[0] = m_entities.emplace(::std::move(drawable), ::std::move(movable)).getId();
+    }
+
+    { // background2
+        ::xrn::component::Drawable drawable{ "background.png", m_window };
+
+        ::xrn::component::Movable movable;
+        movable.setDirection({1.0f, 0.0f});
+        movable.setSpeed({ -static_cast<float>(m_enemySpeed / 2), 0 });
+        movable.setPosition(m_window.getSize().x / 2 + 60, 0);
+        drawable.updatePosition(movable);
+
+        m_backgroundIds[1] = m_entities.emplace(::std::move(drawable), ::std::move(movable)).getId();
+    }
+    { // background3
+        ::xrn::component::Drawable drawable{ "background.png", m_window };
+
+        ::xrn::component::Movable movable;
+        movable.setDirection({1.0f, 0.0f});
+        movable.setSpeed({ -static_cast<float>(m_enemySpeed / 2), 0 });
+        movable.setPosition(m_window.getSize().x + 120, 0);
+        drawable.updatePosition(movable);
+
+        m_backgroundIds[2] = m_entities.emplace(::std::move(drawable), ::std::move(movable)).getId();
+    }
+
+    { // background4
+        ::xrn::component::Drawable drawable{ "background.png", m_window };
+
+        ::xrn::component::Movable movable;
+        movable.setDirection({1.0f, 0.0f});
+        movable.setSpeed({ -static_cast<float>(m_enemySpeed / 2), 0 });
+        movable.setPosition(m_window.getSize().x * 1.5 + 180, 0);
+        drawable.updatePosition(movable);
+
+        m_backgroundIds[3] = m_entities.emplace(::std::move(drawable), ::std::move(movable)).getId();
+    }
 
     // ground
     {
@@ -45,7 +89,6 @@
             ::std::move(hitbox)
         );
     }
-
 
     // player created in last
     {
@@ -155,11 +198,36 @@ auto ::xrn::Scene::update()
 
     // delete enemies
     for (auto& entity : m_entities) {
-        if (auto* movable{ m_components.get<::xrn::component::Movable>(entity.getId()) }; movable) {
+        if (
+            entity.getId() == m_playerId ||
+            entity.getId() == m_backgroundIds[0] ||
+            entity.getId() == m_backgroundIds[1] ||
+            entity.getId() == m_backgroundIds[2] ||
+            entity.getId() == m_backgroundIds[3]
+        ) {
+            continue;
+        } else if (auto* movable{ m_components.get<::xrn::component::Movable>(entity.getId()) }; movable) {
             if (movable->getPosition().x <= -100) {
                 break;
             }
         }
+    }
+
+    // background movement
+    if (
+        auto* movable2{ m_components.get<::xrn::component::Movable>(m_backgroundIds[1]) };
+        movable2->getPosition().x <= -1000
+    ) {
+        auto* movable1{ m_components.get<::xrn::component::Movable>(m_backgroundIds[0]) };
+        movable1->setPosition(m_window.getSize().x + 120, 0);
+        movable2->setPosition(m_window.getSize().x * 1.5 + 180, 0);
+    } else if (
+        auto* movable4{ m_components.get<::xrn::component::Movable>(m_backgroundIds[3]) };
+        movable4->getPosition().x <= -1000
+    ) {
+        auto* movable3{ m_components.get<::xrn::component::Movable>(m_backgroundIds[2]) };
+        movable3->setPosition(m_window.getSize().x + 120, 0);
+        movable4->setPosition(m_window.getSize().x * 1.5 + 180, 0);
     }
 
     // score

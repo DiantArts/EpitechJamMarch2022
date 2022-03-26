@@ -101,6 +101,8 @@ private:
     ::std::size_t m_score{ 0 };
     ::xrn::Id m_scoreId{ 0 };
 
+    ::std::array<::std::size_t, 4> m_backgroundIds;
+
 };
 
 
