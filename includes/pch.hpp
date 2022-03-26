@@ -84,7 +84,7 @@ namespace xrn {
     class Scene;
 }
 
-#define DEBUG_HITBOX
+// #define DEBUG_HITBOX
 
 template <
     typename T
